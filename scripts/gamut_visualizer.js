@@ -102,7 +102,8 @@ window.paperscript = {};
 paperscript.clear = function () {
     project.clear();
     paper.view.draw();
-}
+};
+
 // Change these from javascript if needed:
 paperscript.backgroundColor = "white";
 paperscript.radius = 150;
