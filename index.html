@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Cache-control" content="no-cache">
+<head>
+</head>
+<body>
+
+<p>If you drag any image file into the box an script will calculate and display its gamut on the color wheel. Everything is done in the browser so the image isn't uploaded anywhere. The difference with other gamut visualizers is that the colors that are less used will be more transparent than the ones that are more frequently used. This allows you to have more information about color usage and helps you determine which zones of the color wheel have been used more in the image.</p>
+
+<p>The colors displayed on the color wheel have only two components from the HSB color model, hue and saturation, and the third component, brightness, is always 100%. This means that any color on the wheel can really appear with different brightness settings in the image.</p>
+
+<!-- Load the Paper.js library -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.22/paper-full.min.js"></script>
+<!-- Load external PaperScript and associate it with myCanvas -->
+<script type="text/paperscript" src="scripts/gamut_visualizer.js" canvas="myCanvas">
+</script>
+<style>
+    #holder { border: 10px dashed #ccc; width: 300px; height: 300px; margin: 20px; float: left; padding: 0px;}
+    #holder.hover { border: 10px dashed #333; }
+    #myCanvas { background: url(images/nogamut.png); width: 300px; height: 300px; margin: 30px; float: left; padding: 0px;}
+    #message { background-color: red; color: white; width: 150px; height: 30px; text-align: center; position: relative; top: -170px; left: 75px; padding-top: 10px; display: none;}
+</style>
+
+<div class="row">
+    <div id="holder">
+      <img id="theimage" src="images/dragimage.png" width="300px" height="300px"><img>
+      <div id="message">
+          Calculating...
+      </div>
+    </div> 
+    <canvas id="myCanvas"></canvas>
+</div>  
+<script>
+// Drag and Drop code based on http://html5demos.com/file-api
+var holder = document.getElementById('holder'),
+    theimage = document.getElementById('theimage');
+
+if (window.FileReader === 'undefined') {
+    document.alert('FileReader not available.');
+}
+
+holder.ondragover = function () {
+    this.className = 'hover';
+    return false;
+};
+
+holder.ondragend = function () {
+    this.className = '';
+    return false;
+};
+
+holder.ondrop = function (e) {
+    this.className = '';
+    e.preventDefault();
+
+    document.getElementById('message').style.display = 'block';
+    paperscript.clear();
+    paperscript.backgroundColor = 'white';
+
+    var file = e.dataTransfer.files[0],
+        reader = new FileReader();
+
+    reader.onload = function (event) {
+        theimage.src = event.target.result;
+        theimage.width = 300;
+        theimage.height = 300;
+    };
+    reader.readAsDataURL(file);
+
+    return false;
+};
+</script>
+
+
+</body>
+</html>
