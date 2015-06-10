@@ -15,3 +15,7 @@ The gamut-visualizer script is in the paperscript format ([paper.js](http://pape
 ## Usage
 
 Load index.html on your browser and drop images on the box.
+
+## Demo
+
+There's a working demo at: http://wheelmasks.com/blog/2015/06/02/gamut-visualizer/
